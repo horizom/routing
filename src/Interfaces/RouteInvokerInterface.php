@@ -1,6 +1,6 @@
 <?php
 
-namespace Horizom\Routing\Invoker;
+namespace Horizom\Routing\Interfaces;
 
 use Psr\Http\Server\RequestHandlerInterface;
 

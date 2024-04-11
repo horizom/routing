@@ -2,16 +2,17 @@
 
 namespace Horizom\Routing;
 
+use Horizom\Dispatcher\MiddlewarePipeFactory;
+use Horizom\Dispatcher\MiddlewareResolver;
+use Horizom\Routing\HandlerResolvers\PhpDiRouteHandlerResolver;
+use Horizom\Routing\Interfaces\RouterFactoryInterface;
+use Horizom\Routing\Invokers\PhpDiRouteInvoker;
 use Invoker\CallableResolver;
 use Invoker\Invoker;
 use Invoker\ParameterResolver;
-use Horizom\Dispatcher\MiddlewarePipeFactory;
-use Horizom\Dispatcher\MiddlewareResolver;
-use Horizom\Routing\HandlerResolver\PhpDiRouteHandlerResolver;
-use Horizom\Routing\Invoker\PhpDiRouteInvoker;
 use Psr\Container\ContainerInterface;
 
-class RouteCollectorFactory implements RouteCollectorFactoryInterface
+class RouterFactory implements RouterFactoryInterface
 {
     /**
      * User defined request class aliases for DI
@@ -28,16 +29,16 @@ class RouteCollectorFactory implements RouteCollectorFactoryInterface
         $this->requestAliases = $requestAliases;
     }
 
-    public function create(ContainerInterface $container): RouteCollector
+    public function create(ContainerInterface $container): Router
     {
-        return new RouteCollector(
+        return new Router(
             new \FastRoute\RouteParser\Std(),
             new \FastRoute\DataGenerator\GroupCountBased(),
             new PhpDiRouteHandlerResolver(
                 new CallableResolver($container)
             ),
             $this->getCompiler($container),
-            new RouterFactory()
+            new RouterHandlerFactory()
         );
     }
 

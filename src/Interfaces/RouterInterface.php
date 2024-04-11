@@ -1,8 +1,8 @@
 <?php
 
-namespace Horizom\Routing;
+namespace Horizom\Routing\Interfaces;
 
-interface RouteCollectorInterface
+interface RouterInterface
 {
     /**
      * Adds a route to the collection.
@@ -129,7 +129,7 @@ interface RouteCollectorInterface
     /**
      * Get router instance with routes from collection
      *
-     * @return RouterInterface
+     * @return RouterHandlerInterface
      */
-    public function getRouter(): RouterInterface;
+    public function getRouter(): RouterHandlerInterface;
 }

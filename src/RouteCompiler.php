@@ -2,8 +2,12 @@
 
 namespace Horizom\Routing;
 
-use Horizom\Routing\Invoker\RouteInvokerInterface;
 use Horizom\Dispatcher\MiddlewarePipeFactoryInterface;
+use Horizom\Routing\Exceptions\WrongRouteHandlerException;
+use Horizom\Routing\HandlerResolvers\RouteHandlerPromise;
+use Horizom\Routing\Interfaces\RouteCompilerInterface;
+use Horizom\Routing\Interfaces\RouteInterface;
+use Horizom\Routing\Interfaces\RouteInvokerInterface;
 
 class RouteCompiler implements RouteCompilerInterface
 {
@@ -35,12 +39,12 @@ class RouteCompiler implements RouteCompilerInterface
         $promisedHandler = null;
 
         // route handler resolution is promised, lets resolve this promise now
-        if ($handlerReflection->getClosureThis() instanceof HandlerResolver\RouteHandlerPromise) {
+        if ($handlerReflection->getClosureThis() instanceof RouteHandlerPromise) {
             // re-throw route resolution exception with debug information
             try {
                 $promisedHandler = $handler();
-            } catch (Exception\WrongRouteHandlerException $e) {
-                throw new Exception\WrongRouteHandlerException(
+            } catch (WrongRouteHandlerException $e) {
+                throw new WrongRouteHandlerException(
                     \sprintf("%s %s: %s", \implode('|', $route->getMethods()), $route->getPath(), $e->getMessage()),
                     $e->getHandler(),
                     $e

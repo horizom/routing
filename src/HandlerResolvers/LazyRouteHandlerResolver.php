@@ -1,8 +1,9 @@
 <?php
 
-namespace Horizom\Routing\HandlerResolver;
+namespace Horizom\Routing\HandlerResolvers;
 
 use Closure;
+use Horizom\Routing\Interfaces\RouteHandlerResolverInterface;
 use InvalidArgumentException;
 
 class LazyRouteHandlerResolver implements RouteHandlerResolverInterface

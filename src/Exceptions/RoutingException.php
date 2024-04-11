@@ -1,6 +1,6 @@
 <?php
 
-namespace Horizom\Routing\Exception;
+namespace Horizom\Routing\Exceptions;
 
 class RoutingException extends \RuntimeException
 {

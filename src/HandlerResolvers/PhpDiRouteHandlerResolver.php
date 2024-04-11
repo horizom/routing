@@ -1,16 +1,17 @@
 <?php
 
-namespace Horizom\Routing\HandlerResolver;
+namespace Horizom\Routing\HandlerResolvers;
 
 use Closure;
-use Invoker\CallableResolver;
-use Invoker\Exception\NotCallableException;
-use Horizom\Routing\Exception;
-use ReflectionException;
-
 use function explode;
 use function is_string;
 use function strpos;
+
+use Horizom\Routing\Exceptions\WrongRouteHandlerException;
+use Horizom\Routing\Interfaces\RouteHandlerResolverInterface;
+use Invoker\CallableResolver;
+use Invoker\Exception\NotCallableException;
+use ReflectionException;
 
 class PhpDiRouteHandlerResolver implements RouteHandlerResolverInterface
 {
@@ -38,7 +39,7 @@ class PhpDiRouteHandlerResolver implements RouteHandlerResolverInterface
         try {
             $handler = Closure::fromCallable($this->resolver->resolve($callable));
         } catch (NotCallableException | ReflectionException $e) {
-            throw new Exception\WrongRouteHandlerException($e->getMessage(), $callable, $e);
+            throw new WrongRouteHandlerException($e->getMessage(), $callable, $e);
         }
 
         $this->validateReturnType($handler, $callable);

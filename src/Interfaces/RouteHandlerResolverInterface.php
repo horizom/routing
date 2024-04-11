@@ -1,6 +1,6 @@
 <?php
 
-namespace Horizom\Routing\HandlerResolver;
+namespace Horizom\Routing\Interfaces;
 
 use Closure;
 

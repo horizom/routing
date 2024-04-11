@@ -33,7 +33,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Horizom\\Routing\\": ""
+      "Horizom\\Routing\\": "src/"
     }
   },
   "config": {

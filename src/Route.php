@@ -1,19 +1,13 @@
 <?php
 
-/**
- * This file is part of the Makise-Co Framework
- *
- * World line: 0.571024a
- * (c) Dmitry K. <coder1994@gmail.com>
- */
-
 declare(strict_types=1);
 
 namespace Horizom\Routing;
 
 use Closure;
 use Horizom\Dispatcher\MiddlewarePipe;
-use Horizom\Routing\Exception\RoutingException;
+use Horizom\Routing\Exceptions\RoutingException;
+use Horizom\Routing\Interfaces\RouteInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
 class Route implements RouteInterface
@@ -58,7 +52,7 @@ class Route implements RouteInterface
      *
      * @var bool
      */
-    private  $isCompiled = false;
+    private $isCompiled = false;
 
     /**
      * @param string[] $methods

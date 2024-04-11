@@ -1,10 +1,11 @@
 <?php
 
-namespace Horizom\Routing\Invoker;
+namespace Horizom\Routing\Invokers;
 
+use Horizom\Routing\Interfaces\RouteInterface;
+use Horizom\Routing\Interfaces\RouteInvokerInterface;
+use Horizom\Routing\RouterHandler;
 use Invoker\InvokerInterface;
-use Horizom\Routing\RouteInterface;
-use Horizom\Routing\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -34,7 +35,7 @@ class PhpDiRouteInvoker implements RouteInvokerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $route = $request->getAttribute(RouteInterface::class);
-        $args = $request->getAttribute(Router::ROUTE_ARGS, []);
+        $args = $request->getAttribute(RouterHandler::ROUTE_ARGS, []);
 
         $handler = $route->getHandler();
 

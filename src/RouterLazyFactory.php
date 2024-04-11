@@ -3,15 +3,15 @@
 namespace Horizom\Routing;
 
 use Invoker\CallableResolver;
-use Horizom\Routing\HandlerResolver\LazyRouteHandlerResolver;
-use Horizom\Routing\HandlerResolver\PhpDiRouteHandlerResolver;
+use Horizom\Routing\HandlerResolvers\LazyRouteHandlerResolver;
+use Horizom\Routing\HandlerResolvers\PhpDiRouteHandlerResolver;
 use Psr\Container\ContainerInterface;
 
-class RouteCollectorLazyFactory extends RouteCollectorFactory
+class RouterLazyFactory extends RouterFactory
 {
-    public function create(ContainerInterface $container): RouteCollector
+    public function create(ContainerInterface $container): Router
     {
-        return new RouteCollector(
+        return new Router(
             new \FastRoute\RouteParser\Std(),
             new \FastRoute\DataGenerator\GroupCountBased(),
             new LazyRouteHandlerResolver(
@@ -20,7 +20,7 @@ class RouteCollectorLazyFactory extends RouteCollectorFactory
                 )
             ),
             $this->getCompiler($container),
-            new RouterFactory()
+            new RouterHandlerFactory()
         );
     }
 }

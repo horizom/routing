@@ -1,14 +1,14 @@
 <?php
 
-namespace Horizom\Routing\HandlerResolver;
+namespace Horizom\Routing\HandlerResolvers;
 
 use Closure;
+use Horizom\Routing\Exceptions\WrongRouteHandlerException;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
-use Horizom\Routing\Exception;
-use Psr\Http\Message\ResponseInterface;
 
 trait RouteHandlerResolverTrait
 {
@@ -22,11 +22,11 @@ trait RouteHandlerResolverTrait
         $reflectionFunction = new ReflectionFunction($normalizedHandler);
         $returnType = $reflectionFunction->getReturnType();
         if (null === $returnType || $returnType->allowsNull()) {
-            throw Exception\WrongRouteHandlerException::forWrongReturnType($rawHandler);
+            throw WrongRouteHandlerException::forWrongReturnType($rawHandler);
         }
 
         if (!$returnType instanceof ReflectionNamedType) {
-            throw Exception\WrongRouteHandlerException::forWrongReturnType($rawHandler);
+            throw WrongRouteHandlerException::forWrongReturnType($rawHandler);
         }
 
         /** @var class-string $typeName */
@@ -38,11 +38,11 @@ trait RouteHandlerResolverTrait
         try {
             $reflectionClass = new ReflectionClass($typeName);
         } catch (ReflectionException $e) {
-            throw Exception\WrongRouteHandlerException::forWrongReturnType($rawHandler);
+            throw WrongRouteHandlerException::forWrongReturnType($rawHandler);
         }
 
         if (!$reflectionClass->implementsInterface(ResponseInterface::class)) {
-            throw Exception\WrongRouteHandlerException::forWrongReturnType($rawHandler);
+            throw WrongRouteHandlerException::forWrongReturnType($rawHandler);
         }
     }
 }

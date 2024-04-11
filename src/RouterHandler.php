@@ -3,10 +3,14 @@
 namespace Horizom\Routing;
 
 use FastRoute\Dispatcher;
+use Horizom\Routing\Exceptions\MethodNotAllowedException;
+use Horizom\Routing\Exceptions\NotFoundException;
+use Horizom\Routing\Interfaces\RouteInterface;
+use Horizom\Routing\Interfaces\RouterHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Router implements RouterInterface
+class RouterHandler implements RouterHandlerInterface
 {
     public const ROUTE_ARGS = 'args';
 
@@ -28,7 +32,7 @@ class Router implements RouterInterface
         );
 
         switch ($routeInfo[0]) {
-            case \FastRoute\Dispatcher::FOUND:
+            case Dispatcher::FOUND:
                 [, $route, $routeArgs] = $routeInfo;
 
                 $request = $request
@@ -36,12 +40,12 @@ class Router implements RouterInterface
                     ->withAttribute(self::ROUTE_ARGS, $routeArgs);
 
                 return $route->getPipe()->handle($request);
-            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-                throw new \Horizom\Routing\Exception\MethodNotAllowedException($routeInfo[1]);
-            case \FastRoute\Dispatcher::NOT_FOUND:
-                throw new \Horizom\Routing\Exception\NotFoundException();
+            case Dispatcher::METHOD_NOT_ALLOWED:
+                throw new MethodNotAllowedException($routeInfo[1]);
+            case Dispatcher::NOT_FOUND:
+                throw new NotFoundException();
             default:
-                throw new \Horizom\Routing\Exception\NotFoundException();
+                throw new NotFoundException();
         }
     }
 }

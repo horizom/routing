@@ -1,6 +1,6 @@
 <?php
 
-namespace Horizom\Routing;
+namespace Horizom\Routing\Interfaces;
 
 interface RouteCompilerInterface
 {
